@@ -6,3 +6,11 @@ C:\Users\Andrei_Kasak@epam.com\Documents\Visual Studio 2013\Projects\!Mentoring\
 C:\Users\Andrei_Kasak@epam.com\Documents\Visual Studio 2013\Projects\!Mentoring\ORMTask\ORMTask\ORMTask\obj\Debug\ORMTask.csprojResolveAssemblyReference.cache
 C:\Users\Andrei_Kasak@epam.com\Documents\Visual Studio 2013\Projects\!Mentoring\ORMTask\ORMTask\ORMTask\obj\Debug\ORMTask.exe
 C:\Users\Andrei_Kasak@epam.com\Documents\Visual Studio 2013\Projects\!Mentoring\ORMTask\ORMTask\ORMTask\obj\Debug\ORMTask.pdb
+C:\Users\Yana\Documents\Visual Studio 2013\Projects\mentoring\ORMTask\ORMTask\ORMTask\bin\Debug\ORMTask.exe.config
+C:\Users\Yana\Documents\Visual Studio 2013\Projects\mentoring\ORMTask\ORMTask\ORMTask\obj\Debug\ORMTask.csprojResolveAssemblyReference.cache
+C:\Users\Yana\Documents\Visual Studio 2013\Projects\mentoring\ORMTask\ORMTask\ORMTask\bin\Debug\ORMTask.exe
+C:\Users\Yana\Documents\Visual Studio 2013\Projects\mentoring\ORMTask\ORMTask\ORMTask\bin\Debug\ORMTask.pdb
+C:\Users\Yana\Documents\Visual Studio 2013\Projects\mentoring\ORMTask\ORMTask\ORMTask\bin\Debug\linq2db.dll
+C:\Users\Yana\Documents\Visual Studio 2013\Projects\mentoring\ORMTask\ORMTask\ORMTask\bin\Debug\linq2db.pdb
+C:\Users\Yana\Documents\Visual Studio 2013\Projects\mentoring\ORMTask\ORMTask\ORMTask\obj\Debug\ORMTask.exe
+C:\Users\Yana\Documents\Visual Studio 2013\Projects\mentoring\ORMTask\ORMTask\ORMTask\obj\Debug\ORMTask.pdb

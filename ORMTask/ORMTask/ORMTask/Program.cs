@@ -7,7 +7,8 @@ namespace ORMTask
     {
         static void Main(string[] args)
         {
-	        SecondTask.DO();
+	       // SecondTask.Do();
+            ThirdTask.Do();
 
 	        Console.ReadKey();
         }
