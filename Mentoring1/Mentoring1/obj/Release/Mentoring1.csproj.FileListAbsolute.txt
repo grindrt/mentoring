@@ -1,0 +1,6 @@
+C:\Users\Andrei_Kasak@epam.com\Documents\Visual Studio 2013\Projects\Mentoring1\Mentoring1\bin\Release\Mentoring1.exe.config
+C:\Users\Andrei_Kasak@epam.com\Documents\Visual Studio 2013\Projects\Mentoring1\Mentoring1\obj\Release\Mentoring1.csprojResolveAssemblyReference.cache
+C:\Users\Andrei_Kasak@epam.com\Documents\Visual Studio 2013\Projects\Mentoring1\Mentoring1\bin\Release\Mentoring1.exe
+C:\Users\Andrei_Kasak@epam.com\Documents\Visual Studio 2013\Projects\Mentoring1\Mentoring1\bin\Release\Mentoring1.pdb
+C:\Users\Andrei_Kasak@epam.com\Documents\Visual Studio 2013\Projects\Mentoring1\Mentoring1\obj\Release\Mentoring1.exe
+C:\Users\Andrei_Kasak@epam.com\Documents\Visual Studio 2013\Projects\Mentoring1\Mentoring1\obj\Release\Mentoring1.pdb

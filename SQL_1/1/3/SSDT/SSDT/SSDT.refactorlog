@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="52ec43a8-ce02-40fc-ad09-994ad430e483" ChangeDateTime="09/25/2016 18:22:20">
+    <Property Name="ElementName" Value="[dbo].[CreditCard].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[CreditCard]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CreditCardId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7ee38e3c-e687-4b61-99fb-12c2f7819523" ChangeDateTime="09/25/2016 18:26:32">
+    <Property Name="ElementName" Value="[dbo].[FK_CreditCard_Employe]" />
+    <Property Name="ElementType" Value="SqlForeignKeyConstraint" />
+    <Property Name="ParentElementName" Value="[dbo].[CreditCard]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[FK_CreditCard_Employees]" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="d49aa32c-0026-41cf-830f-9b3435a08f49" ChangeDateTime="09/25/2016 18:40:10">
+    <Property Name="ElementName" Value="[dbo].[Region]" />
+    <Property Name="ElementType" Value="SqlTable" />
+    <Property Name="ParentElementName" Value="[dbo]" />
+    <Property Name="ParentElementType" Value="SqlSchema" />
+    <Property Name="NewName" Value="[Regions]" />
+  </Operation>
+</Operations>
