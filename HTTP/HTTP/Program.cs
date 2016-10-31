@@ -15,7 +15,7 @@ namespace HTTP
     {
         static void Main(string[] args)
         {
-            var url = "www.google.com";
+            var url = "http://beanbaggy.by/";
             Task t = new Task(() => Do(url, 2, DomainLimitation.Without, new List<FileExtension> { FileExtension.JPG }));
             t.Start();
 
@@ -24,8 +24,6 @@ namespace HTTP
 
         public static async void Do(string url, int deep, DomainLimitation domainLimitation, List<FileExtension> extentions)
         {
-            if (!url.StartsWith("http")) url = string.Format("https://{0}", url);
-
             var markups = new List<Markup>();
 
             var mainPage = await GetHtml(url);
@@ -38,8 +36,9 @@ namespace HTTP
                 {
                     if (markupsByLink.Any())
                     {
-						var buf = new List<Markup>();
-                        for (int index = 0; index < markupsByLink.Count; index++)
+                        //var buf = new List<Markup>();
+                        var parentCount = markupsByLink.Count;
+                        for (int index = 0; index < parentCount; index++)
                         {
                             try
                             {
@@ -47,7 +46,8 @@ namespace HTTP
 								var pages = await GetChildPages(item.Html, markups.Select(x => x.Url));
                                 if (pages.Any())
                                 {
-                                    buf.AddRange(pages);
+                                    //buf.AddRange(pages);
+                                    markupsByLink.AddRange(pages.Distinct());
                                 }
                             }
                             catch (Exception e)
@@ -55,13 +55,14 @@ namespace HTTP
                               //  Console.WriteLine(e);
                             }
                         }
-                        markupsByLink.Clear();
-						markupsByLink.AddRange(buf);
+                        markupsByLink.RemoveRange(0, parentCount);
+                        //markupsByLink.Clear();
+                        //markupsByLink.AddRange(buf);
 						markups.AddRange(markupsByLink);
                     }
                     else
                     {
-						markupsByLink.AddRange(await GetChildPages(mainPage, markups.Select(x=>x.Url)));
+                        markupsByLink.AddRange(await GetChildPages(mainPage, markups.Select(x => x.Url)));
 						markups.AddRange(markupsByLink);
                     }
                     level++;
@@ -86,13 +87,12 @@ namespace HTTP
                             //{
                             //    Directory.CreateDirectory(@"E:\test");
                             //}
-                            //wc.DownloadFile(requestUri, @"E:\test\test.html");
+                            //wc.DownloadFile(url, @"E:\test\test.html");
                             //wc.DownloadFile(image.Url, String.Format(@"E:\test\{0}", image.Url.AbsolutePath));
                         }
                     }
                 }
             }
-
         }
 
         private static async Task<List<Markup>> GetChildPages(string sourcePage, IEnumerable<string> storedUrls)
@@ -103,14 +103,14 @@ namespace HTTP
             {
                 try
                 {
-					pages.Add(new Markup { Url = link, Html = await GetHtml(link) });
+                    pages.Add(new Markup { Url = link, Html = await GetHtml(link) });
                 }
                 catch (Exception e)
                 {
                     // ignored
                 }
             }
-            return pages;
+            return pages.Distinct().ToList();
         }
 
         private static List<string> GetLinks(string mainPage, IEnumerable<string> storedUrls)
@@ -120,12 +120,24 @@ namespace HTTP
             var doc = new HtmlDocument();
             doc.LoadHtml(mainPage);
             var nodes = doc.DocumentNode.SelectNodes("//a");
-            foreach (var link in nodes
-	            .Select(node => node.Attributes["href"].Value)
-	            .Where(link => !string.IsNullOrEmpty(link) && !linksArray.Contains(link))
-				.Where(link => !storedUrls.Any(x => x.Equals(link))))
+            foreach (var node in nodes
+                .Select(node => node.Attributes["href"].Value)
+                .Where(link => !string.IsNullOrEmpty(link) && !linksArray.Contains(link))
+                .Where(link => !storedUrls.Any(x => x.Equals(link)))
+                .Where(link => link.Length > 1))
             {
-	            linksArray.Add(link);
+//#if DEBUG
+                if (node.Contains("vk") || node.Contains("twitter")) continue;
+//#endif
+
+                if (node.StartsWith("mail")) continue;
+                var domain = storedUrls.FirstOrDefault();
+                domain = domain != null && domain.EndsWith("/") ? domain.Remove(domain.Length - 1) : domain;
+                var link = node.StartsWith("/") && domain != null ? string.Format("{0}{1}", domain, node) : node;
+                if (!linksArray.Contains(link))
+                {
+                    linksArray.Add(link);
+                }
             }
             return linksArray;
         }
@@ -133,16 +145,18 @@ namespace HTTP
 	    private static IEnumerable<Img> Extras(string url, HtmlDocument doc, List<FileExtension> extensions)
 	    {
 		    var htmlNodes = doc.DocumentNode.Descendants("img");
-		    foreach (var img in htmlNodes)
-		    {
-			    var title = img.ParentNode.Attributes["title"];
-			    var source = img.Attributes["src"] != null ? img.Attributes["src"].Value : string.Empty;
-				if (extensions.Any(e => IsApprovedExtension(source, e)))
-			    {
-				    if (source.StartsWith("/") || !source.StartsWith("http")) source = string.Format("{0}{1}", url, source);
-				    yield return new Img {Url = new Uri(source), Title = (title != null ? title.Value : "")};
-			    }
-		    }
+	        foreach (
+	            var img in
+	                htmlNodes.Where(
+	                    x =>
+	                        x.Attributes["src"] != null &&
+	                        extensions.Any(e => IsApprovedExtension(x.Attributes["src"].Value, e))))
+	        {
+	            var title = img.ParentNode.Attributes["title"];
+	            var source = img.Attributes["src"] != null ? img.Attributes["src"].Value : string.Empty;
+	            if (source.StartsWith("/") || !source.StartsWith("http")) source = string.Format("{0}{1}", url, source);
+	            yield return new Img {Url = new Uri(source), Title = (title != null ? title.Value : "")};
+	        }
 	    }
 
 	    private static bool IsApprovedExtension(string source, FileExtension approvedExtension)
@@ -153,12 +167,14 @@ namespace HTTP
 		    return approvedExtension.ToString().ToUpper().Equals(upper);
 	    }
 
-	    private static async Task<string> GetHtml(string requestUri)
+	    private static async Task<string> GetHtml(string url)
         {
+            Console.WriteLine(url);
+            if (!url.StartsWith("http")) url = string.Format("http://{0}", url);
             string result;
             using (var client = new HttpClient())
             {
-                using (var responseMessage = await client.GetAsync(requestUri))
+                using (var responseMessage = await client.GetAsync(url))
                 {
                     using (var content = responseMessage.Content)
                     {

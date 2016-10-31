@@ -26,3 +26,17 @@ C:\Users\Andrei_Kasak@epam.com\Documents\Visual Studio 2013\Projects\!Mentoring\
 C:\Users\Andrei_Kasak@epam.com\Documents\Visual Studio 2013\Projects\!Mentoring\HTTP\HTTP\bin\Debug\System.Net.Http.Primitives.xml
 C:\Users\Andrei_Kasak@epam.com\Documents\Visual Studio 2013\Projects\!Mentoring\HTTP\HTTP\obj\Debug\HTTP.csproj.App.config
 C:\Users\Andrei_Kasak@epam.com\Documents\Visual Studio 2013\Projects\!Mentoring\HTTP\HTTP\obj\Debug\HTTP.csprojResolveAssemblyReference.cache
+C:\Users\Yana\Documents\Visual Studio 2013\Projects\mentoring\HTTP\HTTP\bin\Debug\HTTP.exe.config
+C:\Users\Yana\Documents\Visual Studio 2013\Projects\mentoring\HTTP\HTTP\obj\Debug\HTTP.exe
+C:\Users\Yana\Documents\Visual Studio 2013\Projects\mentoring\HTTP\HTTP\obj\Debug\HTTP.pdb
+C:\Users\Yana\Documents\Visual Studio 2013\Projects\mentoring\HTTP\HTTP\bin\Debug\HTTP.exe
+C:\Users\Yana\Documents\Visual Studio 2013\Projects\mentoring\HTTP\HTTP\bin\Debug\HTTP.pdb
+C:\Users\Yana\Documents\Visual Studio 2013\Projects\mentoring\HTTP\HTTP\bin\Debug\HtmlAgilityPack.dll
+C:\Users\Yana\Documents\Visual Studio 2013\Projects\mentoring\HTTP\HTTP\bin\Debug\System.Net.Http.Extensions.dll
+C:\Users\Yana\Documents\Visual Studio 2013\Projects\mentoring\HTTP\HTTP\bin\Debug\System.Net.Http.Primitives.dll
+C:\Users\Yana\Documents\Visual Studio 2013\Projects\mentoring\HTTP\HTTP\bin\Debug\HtmlAgilityPack.pdb
+C:\Users\Yana\Documents\Visual Studio 2013\Projects\mentoring\HTTP\HTTP\bin\Debug\HtmlAgilityPack.xml
+C:\Users\Yana\Documents\Visual Studio 2013\Projects\mentoring\HTTP\HTTP\bin\Debug\System.Net.Http.Extensions.xml
+C:\Users\Yana\Documents\Visual Studio 2013\Projects\mentoring\HTTP\HTTP\bin\Debug\System.Net.Http.Primitives.xml
+C:\Users\Yana\Documents\Visual Studio 2013\Projects\mentoring\HTTP\HTTP\obj\Debug\HTTP.csproj.App.config
+C:\Users\Yana\Documents\Visual Studio 2013\Projects\mentoring\HTTP\HTTP\obj\Debug\HTTP.csprojResolveAssemblyReference.cache
