@@ -27,7 +27,7 @@ namespace HTTP
             var markups = new List<Markup>();
 
             var mainPage = await GetHtml(url);
-	        markups.Add(new Markup {Url = url, Html = mainPage});
+            markups.Add(new Markup { Url = new Uri(url), Html = mainPage });
             if (deep > 0)
             {
                 var markupsByLink = new List<Markup>();
@@ -36,7 +36,6 @@ namespace HTTP
                 {
                     if (markupsByLink.Any())
                     {
-                        //var buf = new List<Markup>();
                         var parentCount = markupsByLink.Count;
                         for (int index = 0; index < parentCount; index++)
                         {
@@ -46,7 +45,6 @@ namespace HTTP
 								var pages = await GetChildPages(item.Html, markups.Select(x => x.Url));
                                 if (pages.Any())
                                 {
-                                    //buf.AddRange(pages);
                                     markupsByLink.AddRange(pages.Distinct());
                                 }
                             }
@@ -56,8 +54,6 @@ namespace HTTP
                             }
                         }
                         markupsByLink.RemoveRange(0, parentCount);
-                        //markupsByLink.Clear();
-                        //markupsByLink.AddRange(buf);
 						markups.AddRange(markupsByLink);
                     }
                     else
@@ -74,28 +70,38 @@ namespace HTTP
             {
                 var doc = new HtmlDocument();
                 doc.LoadHtml(markup.Html);
-				Console.WriteLine(markup.Url);
+                Console.WriteLine(markup.Url);
 
-                if (extentions.Any())
+                using (var client = new WebClient())
                 {
-					foreach (var image in Extras(url, doc, extentions))
+                    var path = markup.Url.AbsolutePath.Replace(markup.Url.Segments.Last(), string.Empty).Replace('/', '\\');
+
+                    var filename = markup.Url.Segments.Last().Equals("/")
+                        ? "index"
+                        : markup.Url.Segments.Last().Remove('/');
+
+                    var split = filename.Split('.');
+                    var extension = split.Length > 1 ? split.Last() : "html";
+
+                    client.DownloadFile(markup.Url.AbsoluteUri,
+                        string.Format(@"E:\test\{0}{1}.{2}", path, filename, extension));
+
+                    if (extentions.Any())
                     {
-                        Console.WriteLine(image.Url.Segments.Last() + " " + image.Title);
-                        using (var wc = new WebClient())
+                        foreach (var image in Extras(markup.Url, doc, extentions))
                         {
-                            //if (!Directory.Exists(@"E:\test"))
-                            //{
-                            //    Directory.CreateDirectory(@"E:\test");
-                            //}
-                            //wc.DownloadFile(url, @"E:\test\test.html");
-                            //wc.DownloadFile(image.Url, String.Format(@"E:\test\{0}", image.Url.AbsolutePath));
+                            if (!Directory.Exists(@"E:\test"))
+                            {
+                                Directory.CreateDirectory(@"E:\test");
+                            }
+                            client.DownloadFile(image.Url, string.Format(@"E:\test\{0}", image.Url.AbsolutePath));
                         }
                     }
                 }
             }
         }
 
-        private static async Task<List<Markup>> GetChildPages(string sourcePage, IEnumerable<string> storedUrls)
+        private static async Task<List<Markup>> GetChildPages(string sourcePage, IEnumerable<Uri> storedUrls)
         {
 			var pages = new List<Markup>();
 			var links = GetLinks(sourcePage, storedUrls);
@@ -103,7 +109,7 @@ namespace HTTP
             {
                 try
                 {
-                    pages.Add(new Markup { Url = link, Html = await GetHtml(link) });
+                    pages.Add(new Markup { Url = new Uri(link), Html = await GetHtml(link) });
                 }
                 catch (Exception e)
                 {
@@ -113,7 +119,7 @@ namespace HTTP
             return pages.Distinct().ToList();
         }
 
-        private static List<string> GetLinks(string mainPage, IEnumerable<string> storedUrls)
+        private static List<string> GetLinks(string mainPage, IEnumerable<Uri> storedUrls)
         {
             var linksArray = new List<string>();
 
@@ -123,7 +129,7 @@ namespace HTTP
             foreach (var node in nodes
                 .Select(node => node.Attributes["href"].Value)
                 .Where(link => !string.IsNullOrEmpty(link) && !linksArray.Contains(link))
-                .Where(link => !storedUrls.Any(x => x.Equals(link)))
+                .Where(link => !storedUrls.Any(x => x.ToString().Equals(link) || x.ToString().EndsWith(link)))
                 .Where(link => link.Length > 1))
             {
 //#if DEBUG
@@ -131,7 +137,7 @@ namespace HTTP
 //#endif
 
                 if (node.StartsWith("mail")) continue;
-                var domain = storedUrls.FirstOrDefault();
+                var domain = storedUrls.FirstOrDefault().ToString();
                 domain = domain != null && domain.EndsWith("/") ? domain.Remove(domain.Length - 1) : domain;
                 var link = node.StartsWith("/") && domain != null ? string.Format("{0}{1}", domain, node) : node;
                 if (!linksArray.Contains(link))
@@ -142,7 +148,7 @@ namespace HTTP
             return linksArray;
         }
 
-	    private static IEnumerable<Img> Extras(string url, HtmlDocument doc, List<FileExtension> extensions)
+	    private static IEnumerable<Img> Extras(Uri url, HtmlDocument doc, List<FileExtension> extensions)
 	    {
 		    var htmlNodes = doc.DocumentNode.Descendants("img");
 	        foreach (
@@ -188,7 +194,7 @@ namespace HTTP
 
 	public class Markup
 	{
-		public string Url { get; set; }
+		public Uri Url { get; set; }
 		public string Html { get; set; }
 	}
 
