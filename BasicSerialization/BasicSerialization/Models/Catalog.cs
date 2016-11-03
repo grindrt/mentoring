@@ -22,5 +22,11 @@ namespace BasicSerialization.Models
         public Catalog()
         {
         }
+
+        public Catalog(Book[] books, DateTime date)
+        {
+            Books = books;
+            Date = date;
+        }
     }
 }

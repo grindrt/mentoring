@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
 namespace BasicSerialization.Models
@@ -26,7 +27,9 @@ namespace BasicSerialization.Models
         public string GenreString
         {
             get { return Genre.ToString(); }
-            set { Genre = string.IsNullOrEmpty(value) ? default(Genre) : (Genre) Enum.Parse(typeof (Genre), value.Trim()); }
+            set { Genre = string.IsNullOrEmpty(value) ? default(Genre) : value.Contains(" ") 
+                ? ToEnum<Genre>(value)
+                : (Genre) Enum.Parse(typeof (Genre), value); }
         }
 
         [XmlElement(ElementName = "publisher")]
@@ -79,6 +82,16 @@ namespace BasicSerialization.Models
         Fantasy,
         Romance,
         Horror,
+
+        [EnumMember(Value = "Science Fiction")]
         ScienceFiction
+    }
+
+    public static class EnumExtensions
+    {
+        public static T ToEnum<T>(string value)
+        {
+            
+        }
     }
 }
