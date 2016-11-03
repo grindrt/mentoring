@@ -125,7 +125,11 @@ namespace HTTP
 
             var doc = new HtmlDocument();
             doc.LoadHtml(mainPage);
-            var nodes = doc.DocumentNode.SelectNodes("//a");
+			var nodes = doc.DocumentNode.SelectNodes("//a");
+
+			var domain = storedUrls.FirstOrDefault().AbsoluteUri;
+			domain = !string.IsNullOrEmpty(domain) && domain.EndsWith("/") ? domain.Remove(domain.Length - 1) : domain;
+
             foreach (var node in nodes
                 .Select(node => node.Attributes["href"].Value)
                 .Where(link => !string.IsNullOrEmpty(link) && !linksArray.Contains(link))
@@ -137,9 +141,7 @@ namespace HTTP
 //#endif
 
                 if (node.StartsWith("mail")) continue;
-                var domain = storedUrls.FirstOrDefault().ToString();
-                domain = domain != null && domain.EndsWith("/") ? domain.Remove(domain.Length - 1) : domain;
-                var link = node.StartsWith("/") && domain != null ? string.Format("{0}{1}", domain, node) : node;
+				var link = node.StartsWith("/") && !string.IsNullOrEmpty(domain) ? string.Format("{0}{1}", domain, node) : node;
                 if (!linksArray.Contains(link))
                 {
                     linksArray.Add(link);
@@ -148,7 +150,7 @@ namespace HTTP
             return linksArray;
         }
 
-	    private static IEnumerable<Img> Extras(Uri url, HtmlDocument doc, List<FileExtension> extensions)
+	    private static IEnumerable<Extra> Extras(Uri url, HtmlDocument doc, List<FileExtension> extensions)
 	    {
 		    var htmlNodes = doc.DocumentNode.Descendants("img");
 	        foreach (
@@ -158,10 +160,9 @@ namespace HTTP
 	                        x.Attributes["src"] != null &&
 	                        extensions.Any(e => IsApprovedExtension(x.Attributes["src"].Value, e))))
 	        {
-	            var title = img.ParentNode.Attributes["title"];
 	            var source = img.Attributes["src"] != null ? img.Attributes["src"].Value : string.Empty;
 	            if (source.StartsWith("/") || !source.StartsWith("http")) source = string.Format("{0}{1}", url, source);
-	            yield return new Img {Url = new Uri(source), Title = (title != null ? title.Value : "")};
+	            yield return new Extra {Url = new Uri(source)};
 	        }
 	    }
 
@@ -214,19 +215,8 @@ namespace HTTP
 	    PNG
     }
 
-    public class Get
+    public class Extra
     {
-        public async Task Do()
-        {
-            HttpClient client = new HttpClient();
-            string responseBodyAsText = await client.GetStringAsync("www.contoso.com");
-            var s = responseBodyAsText;
-        }
-    }
-
-    public class Img
-    {
-        public string Title;
         public Uri Url;
     }
 }
