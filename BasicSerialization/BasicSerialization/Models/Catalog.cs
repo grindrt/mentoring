@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 
 namespace BasicSerialization.Models
 {
-    [XmlRoot(ElementName = "catalog", Namespace = "http://library.by/catalog", DataType = "Array")]
+    [XmlRoot(ElementName = "catalog", Namespace = "http://library.by/catalog")]
     public class Catalog
     {
         [XmlElement(ElementName = "book")]
@@ -15,13 +15,18 @@ namespace BasicSerialization.Models
         [XmlAttribute("date")]
         public string DateString
         {
-            get { return Date.ToString("YYYY-MM-dd"); }
+            get { return Date.ToString("yyyy-MM-dd"); }
             set { Date = DateTime.Parse(value); }
         }
 
         public Catalog()
         {
         }
+
+		public Catalog(Book[] books)
+		{
+			Books = books;
+		}
 
         public Catalog(Book[] books, DateTime date)
         {
