@@ -1,3 +1,5 @@
+using System.Runtime.Serialization;
+
 namespace Task.DB
 {
     using System;
@@ -6,6 +8,7 @@ namespace Task.DB
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
+    [Serializable]
     [Table("Order Details")]
     public partial class Order_Detail
     {

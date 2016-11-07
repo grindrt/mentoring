@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
+using HTTP.Enums;
 
 namespace HTTP
 {
@@ -198,22 +199,6 @@ namespace HTTP
 		public Uri Url { get; set; }
 		public string Html { get; set; }
 	}
-
-	public enum DomainLimitation
-    {
-        Without,
-        CurrentDomain,
-        SourceURL
-    }
-
-    public enum FileExtension
-    {
-        GIF,
-        JPEG,
-        JPG,
-        PDF,
-	    PNG
-    }
 
     public class Extra
     {

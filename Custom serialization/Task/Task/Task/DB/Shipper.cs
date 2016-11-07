@@ -14,6 +14,12 @@ namespace Task.DB
             Orders = new HashSet<Order>();
         }
 
+        public Shipper(Shipper shipper)
+        {
+            CompanyName = shipper.CompanyName;
+            Phone = shipper.Phone;
+        }
+
         public int ShipperID { get; set; }
 
         [Required]

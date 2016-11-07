@@ -15,6 +15,22 @@ namespace Task.DB
             CustomerDemographics = new HashSet<CustomerDemographic>();
         }
 
+        public Customer(Customer customer)
+        {
+            CustomerID = customer.CustomerID;
+            Address = customer.Address;
+            City = customer.City;
+            CompanyName = customer.CompanyName;
+            ContactName = customer.ContactName;
+            ContactTitle = customer.ContactTitle;
+            Country = customer.Country;
+            CustomerDemographics = customer.CustomerDemographics;
+            Fax = customer.Fax;
+            Phone = customer.Phone;
+            PostalCode = customer.PostalCode;
+            Region = customer.Region;
+        }
+
         [StringLength(5)]
         public string CustomerID { get; set; }
 

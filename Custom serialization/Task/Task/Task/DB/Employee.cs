@@ -16,6 +16,34 @@ namespace Task.DB
             Territories = new HashSet<Territory>();
         }
 
+        public Employee(Employee employee)
+        {
+            EmployeeID = employee.EmployeeID;
+            LastName = employee.LastName;
+            FirstName = employee.FirstName;
+            Title = employee.Title;
+            TitleOfCourtesy = employee.TitleOfCourtesy;
+            BirthDate = employee.BirthDate;
+            HireDate = employee.HireDate;
+            Address = employee.Address;
+            City = employee.City;
+            Region = employee.Region;
+            PostalCode = employee.PostalCode;
+
+            Country = employee.Country;
+            HomePhone = employee.HomePhone;
+            Extension = employee.Extension;
+            Photo = employee.Photo;
+            Notes = employee.Notes;
+            ReportsTo = employee.ReportsTo;
+            PhotoPath = employee.PhotoPath;
+
+            //Employee1 = employee.Employee1;
+            //Employees1 = employee.Employees1;
+            //Orders = employee.Orders;
+            //Territories = employee.Territories;
+        }
+
         public int EmployeeID { get; set; }
 
         [Required]
